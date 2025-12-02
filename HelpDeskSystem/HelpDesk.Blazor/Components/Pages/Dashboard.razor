@@ -1,0 +1,213 @@
+@page "/dashboard"
+@using HelpDesk.Data.Dtos
+@using HelpDesk.Data.Entities
+@inject HttpClient Http
+@attribute [Authorize]
+
+<div class="dashboard-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-white mb-0">Dashboard</h2>
+        <a href="tickets/create" class="btn btn-primary">
+            <span class="bi bi-plus-lg me-2"></span>New Ticket
+        </a>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="text-white">Loading dashboard data...</div>
+    }
+    else if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+    else
+    {
+        <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Tickets</h5>
+                    <h2 class="card-text text-white">@stats?.TotalTickets</h2>
+                    <p class="card-text text-muted small">All-time tickets created</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Open Tickets</h5>
+                    <h2 class="card-text text-white">@stats?.OpenTickets</h2>
+                    <p class="card-text text-muted small">Tickets awaiting resolution</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Resolved This Week</h5>
+                    <h2 class="card-text text-white">+@stats?.ResolvedThisWeek</h2>
+                    <p class="card-text text-muted small">+@stats?.ResolvedThisWeek since last week</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card dashboard-card">
+        <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="text-white mb-0">Recent Tickets</h5>
+                <small class="text-muted">A list of the most recent tickets.</small>
+            </div>
+            <a href="tickets" class="btn btn-sm btn-outline-info">View All ↗</a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-muted">Subject</th>
+                            <th class="text-muted">Status</th>
+                            <th class="text-muted">Priority</th>
+                            <th class="text-muted">Assigned To</th>
+                            <th class="text-muted">Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (stats?.RecentTickets != null)
+                        {
+                            foreach (var ticket in stats.RecentTickets)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="text-white fw-bold">@ticket.Title</div>
+                                        <div class="text-muted small">@ticket.CreatedBy?.DisplayName</div>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill @GetStatusBadgeClass(ticket.Status)">@ticket.Status</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill @GetPriorityBadgeClass(ticket.Priority)">@GetPriorityLabel(ticket.Priority)</span>
+                                    </td>
+                                    <td>
+                                        @if (ticket.AssignedEngineer != null)
+                                        {
+                                            <span class="text-white">@ticket.AssignedEngineer.DisplayName</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">Unassigned</span>
+                                        }
+                                    </td>
+                                    <td class="text-muted">@ticket.DateCreated.ToString("MMMM dd, yyyy")</td>
+                                    <td>
+                                        <a href="tickets/details/@ticket.TicketId" class="btn btn-sm btn-outline-secondary">View</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Loading...</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<style>
+    body {
+        background-color: #0f172a; /* Dark blue background */
+    }
+    .dashboard-container {
+        padding: 20px;
+    }
+    .dashboard-card {
+        background-color: #1e293b; /* Slightly lighter dark blue */
+        border: 1px solid #334155;
+        border-radius: 10px;
+    }
+    .table-dark {
+        --bs-table-bg: #1e293b;
+        --bs-table-striped-bg: #2d3748;
+    }
+    .badge-status-new { background-color: #3b82f6; color: white; } /* Blue */
+    .badge-status-inprogress { background-color: #eab308; color: black; } /* Yellow */
+    .badge-status-resolved { background-color: #22c55e; color: white; } /* Green */
+    .badge-status-closed { background-color: #64748b; color: white; } /* Grey */
+    .badge-status-onhold { background-color: #f97316; color: white; } /* Orange */
+
+    .badge-priority-high { background-color: #ef4444; color: white; } /* Red */
+    .badge-priority-medium { background-color: #f97316; color: white; } /* Orange */
+    .badge-priority-low { background-color: #22c55e; color: white; } /* Green */
+</style>
+
+@code {
+    private DashboardStatsDto? stats;
+    private string? errorMessage;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("Dashboard: OnInitializedAsync started");
+        try
+        {
+            isLoading = true;
+            Console.WriteLine("Dashboard: Calling API api/dashboard");
+            stats = await Http.GetFromJsonAsync<DashboardStatsDto>("api/dashboard");
+            Console.WriteLine($"Dashboard: API call successful. Stats: Total={stats?.TotalTickets}, Recent={stats?.RecentTickets?.Count}");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading dashboard: {ex.Message}";
+            Console.WriteLine(errorMessage);
+            Console.WriteLine(ex.StackTrace);
+        }
+        finally
+        {
+            isLoading = false;
+            Console.WriteLine($"Dashboard: Loading finished. isLoading={isLoading}");
+            StateHasChanged();
+        }
+    }
+
+    private string GetStatusBadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.New => "badge-status-new",
+            TicketStatus.InProgress => "badge-status-inprogress",
+            TicketStatus.Resolved => "badge-status-resolved",
+            TicketStatus.Closed => "badge-status-closed",
+            TicketStatus.OnHold => "badge-status-onhold",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetPriorityBadgeClass(int priority)
+    {
+        return priority switch
+        {
+            1 => "badge-priority-high",
+            2 => "badge-priority-medium",
+            3 => "badge-priority-low",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetPriorityLabel(int priority)
+    {
+        return priority switch
+        {
+            1 => "High",
+            2 => "Medium",
+            3 => "Low",
+            _ => "Unknown"
+        };
+    }
+}

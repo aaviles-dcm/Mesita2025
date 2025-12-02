@@ -1,0 +1,13 @@
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\HelpDesk.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\HelpDesk.Data.AssemblyInfoInputs.cache
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\HelpDesk.Data.AssemblyInfo.cs
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\HelpDesk.Data.csproj.CoreCompileInputs.cache
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\bin\Debug\net9.0\HelpDesk.Data.deps.json
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\bin\Debug\net9.0\HelpDesk.Data.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\bin\Debug\net9.0\HelpDesk.Data.pdb
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\HelpDesk.Data.csproj.AssemblyReference.cache
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\HelpDesk.Data.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\refint\HelpDesk.Data.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\HelpDesk.Data.pdb
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\ref\HelpDesk.Data.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\obj\Debug\net9.0\HelpDesk.Data.sourcelink.json

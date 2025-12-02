@@ -1,0 +1,436 @@
+@page "/tickets/details/{Id:int}"
+@using HelpDesk.Data.Entities
+@using System.Security.Claims
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@attribute [Authorize]
+
+<div class="container-fluid mt-4">
+    @if (ticket == null)
+    {
+        if (isLoading)
+        {
+            <div class="text-white">Loading ticket details...</div>
+        }
+        else
+        {
+            <div class="alert alert-danger">Ticket not found or error loading details.</div>
+            <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+        }
+    }
+    else
+    {
+        <div class="d-flex align-items-center mb-4">
+            <a href="/dashboard" class="btn btn-outline-light me-3"><i class="bi bi-arrow-left"></i></a>
+            <h3 class="text-white mb-0">@ticket.Title</h3>
+            <span class="ms-auto text-muted">ID: TKT-@ticket.TicketId.ToString("D3")</span>
+        </div>
+
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-md-8">
+                <!-- Tabs -->
+                <ul class="nav nav-tabs border-bottom-0 mb-3">
+                    <li class="nav-item">
+                        <button class="nav-link @(activeTab == "description" ? "active text-info border-bottom border-info" : "text-muted")" 
+                                @onclick="@(() => activeTab = "description")" 
+                                style="background: none; border: none; border-bottom: 2px solid @(activeTab == "description" ? "#0dcaf0" : "transparent");">
+                            Description
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link @(activeTab == "audit" ? "active text-info border-bottom border-info" : "text-muted")" 
+                                @onclick="@(() => activeTab = "audit")"
+                                style="background: none; border: none; border-bottom: 2px solid @(activeTab == "audit" ? "#0dcaf0" : "transparent");">
+                            Audit Trail
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link @(activeTab == "solution" ? "active text-info border-bottom border-info" : "text-muted")" 
+                                @onclick="@(() => activeTab = "solution")"
+                                style="background: none; border: none; border-bottom: 2px solid @(activeTab == "solution" ? "#0dcaf0" : "transparent");">
+                            Solution
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="text-white">
+                    @if (activeTab == "description")
+                    {
+                        <div class="card bg-dark border-secondary p-3">
+                            <p>@ticket.Description</p>
+                        </div>
+                    }
+                    else if (activeTab == "audit")
+                    {
+                        <div class="mb-4">
+                            @if (workLogs != null)
+                            {
+                                @foreach (var log in workLogs)
+                                {
+                                    <div class="d-flex mb-3">
+                                        <div class="me-3"><i class="bi bi-person-circle fs-4 text-secondary"></i></div>
+                                        <div>
+                                            <div class="fw-bold">@(log.Engineer?.DisplayName ?? "Unknown User")</div>
+                                            <div class="small text-muted">@log.StartTime.ToString("g")</div>
+                                            <div class="text-white-50">@log.Description</div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="text-muted">No activity yet.</div>
+                            }
+                        </div>
+
+                        @if (ticket.Status != TicketStatus.Closed && (ticket.Status != TicketStatus.Cancelled || currentUserRole == UserRole.Administrator))
+                        {
+                            <div class="card bg-dark border-secondary p-3">
+                                <h6 class="text-white mb-3">Add Comment</h6>
+                                <div class="mb-3">
+                                    <textarea class="form-control bg-dark text-white border-secondary" rows="3" @bind="newComment" placeholder="Enter your comment..."></textarea>
+                                </div>
+                                <button class="btn btn-info btn-sm" @onclick="AddComment" disabled="@string.IsNullOrWhiteSpace(newComment)">Post Comment</button>
+                            </div>
+                        }
+                    }
+                    else if (activeTab == "solution")
+                    {
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Solution Summary</label>
+                            <textarea class="form-control bg-dark text-white border-secondary" rows="5" @bind="ticket.SolutionSummary" disabled="@(currentUserRole != UserRole.Engineer)"></textarea>
+                        </div>
+                        @if (currentUserRole == UserRole.Engineer)
+                        {
+                            <button class="btn btn-info" @onclick="SaveSolution">Save Solution</button>
+                        }
+                    }
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <div class="card bg-dark border-secondary mb-4">
+                    <div class="card-header border-secondary text-white">
+                        <h5 class="mb-0">Ticket Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="text-muted small d-block">Status</label>
+                            <span class="badge rounded-pill @GetStatusBadgeClass(ticket.Status)">@ticket.Status</span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted small d-block">Priority</label>
+                            <span class="badge rounded-pill @GetPriorityBadgeClass(ticket.Priority)">@GetPriorityLabel(ticket.Priority)</span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted small d-block">Category</label>
+                            <span class="text-white">@ticket.Category?.Name</span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted small d-block">Submitted By</label>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-person-circle text-secondary me-2"></i>
+                                <span class="text-white">@ticket.CreatedBy?.DisplayName</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted small d-block">Assigned To</label>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-person-circle text-secondary me-2"></i>
+                                <span class="text-white">@(ticket.AssignedEngineer?.DisplayName ?? "Unassigned")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-dark border-secondary">
+                    <div class="card-header border-secondary text-white">
+                        <h5 class="mb-0">Actions</h5>
+                    </div>
+                    <div class="card-body d-grid gap-2">
+                        @if (currentUserRole == UserRole.Engineer && ticket.Status != TicketStatus.Cancelled)
+                        {
+                            @if (ticket.AssignedEngineerId == null)
+                            {
+                                <button class="btn btn-primary" @onclick="TakeTicket">Take Ticket</button>
+                            }
+                            
+                            @if (ticket.Status != TicketStatus.Closed && ticket.Status != TicketStatus.Resolved)
+                            {
+                                <button class="btn btn-warning" @onclick="RequestInfo">Request Info</button>
+                                <button class="btn btn-success" @onclick="ResolveTicket">Resolve Ticket</button>
+                                <button class="btn btn-danger" @onclick="CancelTicket">Cancel Ticket</button>
+                            }
+                        }
+                        
+                        @if (currentUserRole == UserRole.User && ticket.Status != TicketStatus.Cancelled)
+                        {
+                            @if (ticket.Status == TicketStatus.Resolved)
+                            {
+                                <button class="btn btn-success" @onclick="CloseTicket">Close Ticket</button>
+                                <button class="btn btn-warning" @onclick="ReopenTicket">Reopen Ticket</button>
+                            }
+                            @if (ticket.Status == TicketStatus.Closed)
+                            {
+                                <button class="btn btn-warning" @onclick="ReopenTicket">Reopen Ticket</button>
+                            }
+                        }
+
+                        @if (currentUserRole == UserRole.Administrator)
+                        {
+                             @if (ticket.Status == TicketStatus.Closed || ticket.Status == TicketStatus.Cancelled)
+                            {
+                                <button class="btn btn-warning" @onclick="ReopenTicket">Reopen Ticket</button>
+                            }
+
+                            <div class="mt-3 pt-3 border-top border-secondary">
+                                <label class="text-muted small mb-2">Assign Engineer</label>
+                                <div class="input-group">
+                                    <select class="form-select bg-dark text-white border-secondary" @bind="selectedEngineerId">
+                                        <option value="@Guid.Empty">Select Engineer...</option>
+                                        @if (engineers != null)
+                                        {
+                                            foreach (var eng in engineers)
+                                            {
+                                                <option value="@eng.UserId">@eng.DisplayName</option>
+                                            }
+                                        }
+                                    </select>
+                                    <button class="btn btn-outline-info" @onclick="AssignEngineer">Assign</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Ticket? ticket;
+    private WorkLog[]? workLogs;
+    private User[]? engineers;
+    private bool isLoading = true;
+    private string activeTab = "description";
+    private string newComment = "";
+    private Guid selectedEngineerId;
+    
+    private Guid currentUserId;
+    private UserRole currentUserRole;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+            var roleClaim = user.FindFirst(ClaimTypes.Role);
+
+            if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out Guid userId))
+            {
+                currentUserId = userId;
+            }
+
+            if (roleClaim != null && Enum.TryParse(roleClaim.Value, out UserRole role))
+            {
+                currentUserRole = role;
+            }
+        }
+
+        await LoadTicket();
+        await LoadWorkLogs();
+
+        if (currentUserRole == UserRole.Administrator)
+        {
+            await LoadEngineers();
+        }
+    }
+
+    private async Task LoadTicket()
+    {
+        try
+        {
+            ticket = await Http.GetFromJsonAsync<Ticket>($"api/tickets/{Id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading ticket: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadWorkLogs()
+    {
+        try
+        {
+            workLogs = await Http.GetFromJsonAsync<WorkLog[]>($"api/worklogs/ticket/{Id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading worklogs: {ex.Message}");
+        }
+    }
+
+    private async Task AddComment()
+    {
+        if (string.IsNullOrWhiteSpace(newComment)) return;
+
+        await LogAction(newComment);
+        newComment = "";
+    }
+
+    private async Task LogAction(string description)
+    {
+        var log = new WorkLog
+        {
+            TicketId = Id,
+            EngineerId = currentUserId,
+            Description = description,
+            StartTime = DateTime.UtcNow,
+            IsInternal = false
+        };
+
+        await Http.PostAsJsonAsync("api/worklogs", log);
+        await LoadWorkLogs();
+    }
+
+    private async Task SaveSolution()
+    {
+        if (ticket != null)
+        {
+             await Http.PutAsJsonAsync($"api/tickets/{Id}", ticket);
+        }
+    }
+
+    private async Task TakeTicket()
+    {
+        await Http.PutAsJsonAsync($"api/tickets/{Id}/assign", currentUserId);
+        await LogAction("Ticket taken by user.");
+        await LoadTicket();
+    }
+
+    private async Task RequestInfo()
+    {
+        if (ticket != null)
+        {
+            ticket.Status = TicketStatus.OnHold;
+            await Http.PutAsJsonAsync($"api/tickets/{Id}", ticket);
+            await LogAction("Status changed to OnHold (Request Info).");
+        }
+    }
+
+    private async Task ResolveTicket()
+    {
+        if (ticket != null)
+        {
+            ticket.Status = TicketStatus.Resolved;
+            ticket.DateResolved = DateTime.UtcNow;
+            await Http.PutAsJsonAsync($"api/tickets/{Id}", ticket);
+            await LogAction("Status changed to Resolved.");
+        }
+    }
+    
+    private async Task CancelTicket()
+    {
+        if (ticket != null)
+        {
+            ticket.Status = TicketStatus.Cancelled;
+            await Http.PutAsJsonAsync($"api/tickets/{Id}", ticket);
+            await LogAction("Status changed to Cancelled.");
+        }
+    }
+    
+    private async Task CloseTicket()
+    {
+        if (ticket != null)
+        {
+            ticket.Status = TicketStatus.Closed;
+            ticket.DateClosed = DateTime.UtcNow;
+            await Http.PutAsJsonAsync($"api/tickets/{Id}", ticket);
+            await LogAction("Status changed to Closed.");
+        }
+    }
+
+    private async Task ReopenTicket()
+    {
+        if (ticket != null)
+        {
+            ticket.Status = TicketStatus.Reopened;
+            await Http.PutAsJsonAsync($"api/tickets/{Id}", ticket);
+            await LogAction("Status changed to Reopened.");
+        }
+    }
+
+    private async Task LoadEngineers()
+    {
+        try
+        {
+            engineers = await Http.GetFromJsonAsync<User[]>($"api/users?role={UserRole.Engineer}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading engineers: {ex.Message}");
+        }
+    }
+
+    private async Task AssignEngineer()
+    {
+        if (selectedEngineerId != Guid.Empty)
+        {
+            await Http.PutAsJsonAsync($"api/tickets/{Id}/assign", selectedEngineerId);
+            
+            var engineerName = engineers?.FirstOrDefault(e => e.UserId == selectedEngineerId)?.DisplayName ?? "Unknown";
+            await LogAction($"Assigned to {engineerName}.");
+            
+            await LoadTicket();
+        }
+    }
+
+    private string GetStatusBadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.New => "badge-status-new",
+            TicketStatus.InProgress => "badge-status-inprogress",
+            TicketStatus.Resolved => "badge-status-resolved",
+            TicketStatus.Closed => "badge-status-closed",
+            TicketStatus.OnHold => "badge-status-onhold",
+            TicketStatus.Cancelled => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetPriorityBadgeClass(int priority)
+    {
+        return priority switch
+        {
+            1 => "badge-priority-high",
+            2 => "badge-priority-medium",
+            3 => "badge-priority-low",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetPriorityLabel(int priority)
+    {
+        return priority switch
+        {
+            1 => "High",
+            2 => "Medium",
+            3 => "Low",
+            _ => "Unknown"
+        };
+    }
+}

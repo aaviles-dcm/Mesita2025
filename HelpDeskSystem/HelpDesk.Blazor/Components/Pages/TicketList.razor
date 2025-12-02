@@ -1,0 +1,149 @@
+@page "/tickets"
+@using HelpDesk.Data.Entities
+@using System.Security.Claims
+@inject HttpClient Http
+@inject AuthenticationStateProvider AuthStateProvider
+@attribute [Authorize]
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-white">Tickets</h3>
+        <a href="/tickets/create" class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>New Ticket</a>
+    </div>
+
+    @if (tickets == null)
+    {
+        <div class="text-white">Loading...</div>
+    }
+    else
+    {
+        <div class="card bg-dark border-secondary">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="ps-4">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Priority</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Assigned To</th>
+                            <th scope="col" class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ticket in tickets)
+                        {
+                            <tr>
+                                <td class="ps-4 text-muted">#@ticket.TicketId</td>
+                                <td class="fw-bold text-white">@ticket.Title</td>
+                                <td><span class="badge bg-secondary">@ticket.Category?.Name</span></td>
+                                <td>
+                                    <span class="badge rounded-pill @GetStatusBadgeClass(ticket.Status)">
+                                        @ticket.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge rounded-pill @GetPriorityBadgeClass(ticket.Priority)">
+                                        @GetPriorityLabel(ticket.Priority)
+                                    </span>
+                                </td>
+                                <td class="text-muted">@ticket.DateCreated.ToShortDateString()</td>
+                                <td>
+                                    @if (ticket.AssignedEngineer != null)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-circle-sm me-2">@ticket.AssignedEngineer.DisplayName.Substring(0, 1)</div>
+                                            <span class="text-white">@ticket.AssignedEngineer.DisplayName</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted fst-italic">Unassigned</span>
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a href="/tickets/details/@ticket.TicketId" class="btn btn-sm btn-outline-info">View</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private Ticket[]? tickets;
+    private Guid currentUserId;
+    private UserRole currentUserRole;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+            var roleClaim = user.FindFirst(ClaimTypes.Role);
+
+            if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out Guid userId))
+            {
+                currentUserId = userId;
+            }
+
+            if (roleClaim != null && Enum.TryParse(roleClaim.Value, out UserRole role))
+            {
+                currentUserRole = role;
+            }
+
+            try 
+            {
+                tickets = await Http.GetFromJsonAsync<Ticket[]>($"api/tickets?userId={currentUserId}&role={currentUserRole}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading tickets: {ex.Message}");
+            }
+        }
+    }
+
+    private string GetStatusBadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.New => "badge-status-new",
+            TicketStatus.InProgress => "badge-status-inprogress",
+            TicketStatus.Resolved => "badge-status-resolved",
+            TicketStatus.Closed => "badge-status-closed",
+            TicketStatus.OnHold => "badge-status-onhold",
+            TicketStatus.Cancelled => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetPriorityBadgeClass(int priority)
+    {
+        return priority switch
+        {
+            1 => "badge-priority-high",
+            2 => "badge-priority-medium",
+            3 => "badge-priority-low",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetPriorityLabel(int priority)
+    {
+        return priority switch
+        {
+            1 => "High",
+            2 => "Medium",
+            3 => "Low",
+            _ => "Unknown"
+        };
+    }
+}

@@ -1,0 +1,17 @@
+  Determinando los proyectos que se van a restaurar...
+  Todos los proyectos están actualizados para la restauración.
+  HelpDesk.Data -> C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\bin\Debug\net9.0\HelpDesk.Data.dll
+  HelpDesk.Logic -> C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\bin\Debug\net9.0\HelpDesk.Logic.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Program.cs(9,18): error CS1061: "IServiceCollection" no contiene una definición para "AddSwaggerGen" ni un método de extensión accesible "AddSwaggerGen" que acepte un primer argumento del tipo "IServiceCollection" (¿falta alguna directiva using o una referencia de ensamblado?) [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Program.cs(19,9): error CS1061: "WebApplication" no contiene una definición para "UseSwagger" ni un método de extensión accesible "UseSwagger" que acepte un primer argumento del tipo "WebApplication" (¿falta alguna directiva using o una referencia de ensamblado?) [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Program.cs(20,9): error CS1061: "WebApplication" no contiene una definición para "UseSwaggerUI" ni un método de extensión accesible "UseSwaggerUI" que acepte un primer argumento del tipo "WebApplication" (¿falta alguna directiva using o una referencia de ensamblado?) [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+
+ERROR al compilar.
+
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Program.cs(9,18): error CS1061: "IServiceCollection" no contiene una definición para "AddSwaggerGen" ni un método de extensión accesible "AddSwaggerGen" que acepte un primer argumento del tipo "IServiceCollection" (¿falta alguna directiva using o una referencia de ensamblado?) [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Program.cs(19,9): error CS1061: "WebApplication" no contiene una definición para "UseSwagger" ni un método de extensión accesible "UseSwagger" que acepte un primer argumento del tipo "WebApplication" (¿falta alguna directiva using o una referencia de ensamblado?) [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Program.cs(20,9): error CS1061: "WebApplication" no contiene una definición para "UseSwaggerUI" ni un método de extensión accesible "UseSwaggerUI" que acepte un primer argumento del tipo "WebApplication" (¿falta alguna directiva using o una referencia de ensamblado?) [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+    0 Advertencia(s)
+    3 Errores
+
+Tiempo transcurrido 00:00:01.94
