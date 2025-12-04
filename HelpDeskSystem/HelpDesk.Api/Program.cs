@@ -53,7 +53,8 @@ using (var scope = app.Services.CreateScope())
             new User { UserId = Guid.NewGuid(), DisplayName = "Alice User", DomainUsername = "DOMAIN\\alice", Email = "alice@example.com", Role = UserRole.User, IsActive = true },
             new User { UserId = Guid.NewGuid(), DisplayName = "Bob User", DomainUsername = "DOMAIN\\bob", Email = "bob@example.com", Role = UserRole.User, IsActive = true },
             new User { UserId = Guid.NewGuid(), DisplayName = "Charlie Engineer", DomainUsername = "DOMAIN\\charlie", Email = "charlie@example.com", Role = UserRole.Engineer, IsActive = true },
-            new User { UserId = Guid.NewGuid(), DisplayName = "David Admin", DomainUsername = "DOMAIN\\david", Email = "david@example.com", Role = UserRole.Administrator, IsActive = true }
+            new User { UserId = Guid.NewGuid(), DisplayName = "David Admin", DomainUsername = "DOMAIN\\david", Email = "david@example.com", Role = UserRole.Administrator, IsActive = true },
+            new User { UserId = Guid.NewGuid(), DisplayName = "Lucas Engieer", DomainUsername = "DOMAIN\\lucas", Email = "lucas@example.com", Role = UserRole.Engineer, IsActive = true }
         );
         dbContext.SaveChanges();
     }
