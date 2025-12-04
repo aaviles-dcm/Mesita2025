@@ -18,19 +18,36 @@ namespace HelpDesk.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DashboardStatsDto>> GetStats()
+        public async Task<ActionResult<DashboardStatsDto>> GetStats([FromQuery] Guid? userId, [FromQuery] UserRole? role)
         {
-            Console.WriteLine("Dashboard API: GetStats called");
+            Console.WriteLine($"Dashboard API: GetStats called for User={userId}, Role={role}");
             try 
             {
-                var totalTickets = await _context.Tickets.CountAsync();
-                var openTickets = await _context.Tickets.CountAsync(t => t.Status == TicketStatus.New || t.Status == TicketStatus.InProgress || t.Status == TicketStatus.OnHold || t.Status == TicketStatus.Reopened);
+                var ticketsQuery = _context.Tickets.AsQueryable();
+
+                if (userId.HasValue && role.HasValue)
+                {
+                    if (role == UserRole.Engineer)
+                    {
+                        // Engineers see tickets assigned to them OR (Status == New AND Assigned == null)
+                        ticketsQuery = ticketsQuery.Where(t => t.AssignedEngineerId == userId || (t.AssignedEngineerId == null && t.Status == TicketStatus.New));
+                    }
+                    else if (role == UserRole.User)
+                    {
+                        // Users see only their own tickets
+                        ticketsQuery = ticketsQuery.Where(t => t.CreatedById == userId);
+                    }
+                    // Admins see everything (no filter applied)
+                }
+
+                var totalTickets = await ticketsQuery.CountAsync();
+                var openTickets = await ticketsQuery.CountAsync(t => t.Status == TicketStatus.New || t.Status == TicketStatus.InProgress || t.Status == TicketStatus.OnHold || t.Status == TicketStatus.Reopened);
                 
                 // Assuming "Resolved This Week" means tickets resolved in the last 7 days
                 var lastWeek = DateTime.UtcNow.AddDays(-7);
-                var resolvedThisWeek = await _context.Tickets.CountAsync(t => (t.Status == TicketStatus.Resolved || t.Status == TicketStatus.Closed) && t.DateResolved >= lastWeek);
+                var resolvedThisWeek = await ticketsQuery.CountAsync(t => (t.Status == TicketStatus.Resolved || t.Status == TicketStatus.Closed) && t.DateResolved >= lastWeek);
 
-                var recentTickets = await _context.Tickets
+                var recentTickets = await ticketsQuery
                     .Include(t => t.CreatedBy)
                     .Include(t => t.AssignedEngineer)
                     .OrderByDescending(t => t.DateCreated)

@@ -3,6 +3,7 @@
 @using HelpDesk.Data.Entities
 @inject HttpClient Http
 @attribute [Authorize]
+@inject AuthenticationStateProvider AuthStateProvider
 
 <div class="dashboard-container">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -152,14 +153,32 @@
     private string? errorMessage;
     private bool isLoading = true;
 
+
+
     protected override async Task OnInitializedAsync()
     {
         Console.WriteLine("Dashboard: OnInitializedAsync started");
         try
         {
             isLoading = true;
-            Console.WriteLine("Dashboard: Calling API api/dashboard");
-            stats = await Http.GetFromJsonAsync<DashboardStatsDto>("api/dashboard");
+            
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            
+            string queryParams = "";
+            if (user.Identity != null && user.Identity.IsAuthenticated)
+            {
+                var userIdClaim = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+                var roleClaim = user.FindFirst(System.Security.Claims.ClaimTypes.Role);
+
+                if (userIdClaim != null && roleClaim != null)
+                {
+                    queryParams = $"?userId={userIdClaim.Value}&role={roleClaim.Value}";
+                }
+            }
+
+            Console.WriteLine($"Dashboard: Calling API api/dashboard{queryParams}");
+            stats = await Http.GetFromJsonAsync<DashboardStatsDto>($"api/dashboard{queryParams}");
             Console.WriteLine($"Dashboard: API call successful. Stats: Total={stats?.TotalTickets}, Recent={stats?.RecentTickets?.Count}");
         }
         catch (Exception ex)

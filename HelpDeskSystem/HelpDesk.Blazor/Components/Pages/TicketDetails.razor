@@ -85,7 +85,7 @@
                             }
                         </div>
 
-                        @if (ticket.Status != TicketStatus.Closed && (ticket.Status != TicketStatus.Cancelled || currentUserRole == UserRole.Administrator))
+                        @if ((ticket.Status != TicketStatus.Closed && ticket.Status != TicketStatus.Cancelled) || currentUserRole == UserRole.Administrator)
                         {
                             <div class="card bg-dark border-secondary p-3">
                                 <h6 class="text-white mb-3">Add Comment</h6>
@@ -185,6 +185,31 @@
                             {
                                 <button class="btn btn-warning" @onclick="ReopenTicket">Reopen Ticket</button>
                             }
+
+                            <div class="mt-3 pt-3 border-top border-secondary">
+                                <label class="text-muted small mb-2">Admin Overrides</label>
+                                
+                                <!-- Status Override -->
+                                <div class="mb-2">
+                                    <label class="text-muted small">Set Status</label>
+                                    <select class="form-select bg-dark text-white border-secondary form-select-sm" value="@ticket.Status" @onchange="OnAdminStatusChange">
+                                        @foreach (var status in Enum.GetValues<TicketStatus>())
+                                        {
+                                            <option value="@status">@status</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <!-- Priority Override -->
+                                <div class="mb-2">
+                                    <label class="text-muted small">Set Priority</label>
+                                    <select class="form-select bg-dark text-white border-secondary form-select-sm" value="@ticket.Priority" @onchange="OnAdminPriorityChange">
+                                        <option value="1">High</option>
+                                        <option value="2">Medium</option>
+                                        <option value="3">Low</option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="mt-3 pt-3 border-top border-secondary">
                                 <label class="text-muted small mb-2">Assign Engineer</label>
@@ -395,6 +420,29 @@
             await LogAction($"Assigned to {engineerName}.");
             
             await LoadTicket();
+        }
+    }
+
+    private async Task OnAdminStatusChange(ChangeEventArgs e)
+    {
+        if (Enum.TryParse<TicketStatus>(e.Value?.ToString(), out var newStatus))
+        {
+            ticket.Status = newStatus;
+            if (newStatus == TicketStatus.Resolved) ticket.DateResolved = DateTime.UtcNow;
+            if (newStatus == TicketStatus.Closed) ticket.DateClosed = DateTime.UtcNow;
+            
+            await Http.PutAsJsonAsync($"api/tickets/{Id}", ticket);
+            await LogAction($"Admin changed status to {newStatus}.");
+        }
+    }
+
+    private async Task OnAdminPriorityChange(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int newPriority))
+        {
+            ticket.Priority = newPriority;
+            await Http.PutAsJsonAsync($"api/tickets/{Id}", ticket);
+            await LogAction($"Admin changed priority to {GetPriorityLabel(newPriority)}.");
         }
     }
 

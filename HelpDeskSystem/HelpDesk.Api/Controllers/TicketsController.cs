@@ -83,6 +83,20 @@ namespace HelpDesk.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Ticket>> PostTicket(Ticket ticket)
         {
+            // Auto-assign engineer based on Category
+            var category = await _context.Categories
+                .Include(c => c.Engineers)
+                .FirstOrDefaultAsync(c => c.CategoryId == ticket.CategoryId);
+
+            if (category != null && category.Engineers.Any())
+            {
+                // Simple strategy: Pick the first available engineer
+                // Future improvement: Round-robin or load balancing
+                var engineer = category.Engineers.First();
+                ticket.AssignedEngineerId = engineer.UserId;
+                // ticket.Status = TicketStatus.New; // Keep as New, but assigned
+            }
+
             _context.Tickets.Add(ticket);
             await _context.SaveChangesAsync();
 
