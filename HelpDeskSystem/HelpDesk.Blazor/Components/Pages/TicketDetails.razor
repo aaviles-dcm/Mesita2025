@@ -168,6 +168,11 @@
                         
                         @if (currentUserRole == UserRole.User && ticket.Status != TicketStatus.Cancelled)
                         {
+                            @if (ticket.Status == TicketStatus.New || ticket.Status == TicketStatus.InProgress || ticket.Status == TicketStatus.OnHold)
+                            {
+                                <button class="btn btn-danger" @onclick="CancelTicket">Cancel Ticket</button>
+                            }
+
                             @if (ticket.Status == TicketStatus.Resolved)
                             {
                                 <button class="btn btn-success" @onclick="CloseTicket">Close Ticket</button>
