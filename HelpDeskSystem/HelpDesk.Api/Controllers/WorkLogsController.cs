@@ -3,6 +3,8 @@ using HelpDesk.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using Microsoft.AspNetCore.SignalR;
+
 namespace HelpDesk.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -10,10 +12,12 @@ namespace HelpDesk.Api.Controllers
     public class WorkLogsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IHubContext<HelpDesk.Api.Hubs.TicketHub> _hubContext;
 
-        public WorkLogsController(AppDbContext context)
+        public WorkLogsController(AppDbContext context, IHubContext<HelpDesk.Api.Hubs.TicketHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpGet("ticket/{ticketId}")]
@@ -31,6 +35,8 @@ namespace HelpDesk.Api.Controllers
         {
             _context.WorkLogs.Add(workLog);
             await _context.SaveChangesAsync();
+            
+            await _hubContext.Clients.All.SendAsync("TicketUpdated", workLog.TicketId);
 
             return CreatedAtAction("GetWorkLogs", new { ticketId = workLog.TicketId }, workLog);
         }
