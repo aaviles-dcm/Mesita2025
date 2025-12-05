@@ -1,9 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "jStGZaXYX04=",
+  "dgSpecHash": "c3xKz+zgM/g=",
   "success": true,
   "projectFilePath": "C:\\Desarrollo\\GrabTikets\\HelpDeskSystem\\HelpDesk.Blazor\\HelpDesk.Blazor.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.aspnetcore.connections.abstractions\\9.0.0\\microsoft.aspnetcore.connections.abstractions.9.0.0.nupkg.sha512",
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.aspnetcore.http.connections.client\\9.0.0\\microsoft.aspnetcore.http.connections.client.9.0.0.nupkg.sha512",
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.aspnetcore.http.connections.common\\9.0.0\\microsoft.aspnetcore.http.connections.common.9.0.0.nupkg.sha512",
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.aspnetcore.signalr.client\\9.0.0\\microsoft.aspnetcore.signalr.client.9.0.0.nupkg.sha512",
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.aspnetcore.signalr.client.core\\9.0.0\\microsoft.aspnetcore.signalr.client.core.9.0.0.nupkg.sha512",
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.aspnetcore.signalr.common\\9.0.0\\microsoft.aspnetcore.signalr.common.9.0.0.nupkg.sha512",
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.aspnetcore.signalr.protocols.json\\9.0.0\\microsoft.aspnetcore.signalr.protocols.json.9.0.0.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.data.sqlite.core\\9.0.0\\microsoft.data.sqlite.core.9.0.0.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512",
@@ -17,6 +24,7 @@
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.0\\microsoft.extensions.dependencyinjection.9.0.0.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.0\\microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.extensions.dependencymodel\\9.0.0\\microsoft.extensions.dependencymodel.9.0.0.nupkg.sha512",
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.extensions.features\\9.0.0\\microsoft.extensions.features.9.0.0.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.extensions.logging\\9.0.0\\microsoft.extensions.logging.9.0.0.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\9.0.0\\microsoft.extensions.logging.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\microsoft.extensions.options\\9.0.0\\microsoft.extensions.options.9.0.0.nupkg.sha512",
@@ -26,7 +34,9 @@
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.10\\sqlitepclraw.lib.e_sqlite3.2.1.10.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.10\\sqlitepclraw.provider.e_sqlite3.2.1.10.nupkg.sha512",
     "C:\\Users\\gerente.sistemas\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
-    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\system.text.json\\9.0.0\\system.text.json.9.0.0.nupkg.sha512"
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\system.net.serversentevents\\9.0.0\\system.net.serversentevents.9.0.0.nupkg.sha512",
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\system.text.json\\9.0.0\\system.text.json.9.0.0.nupkg.sha512",
+    "C:\\Users\\gerente.sistemas\\.nuget\\packages\\system.threading.channels\\9.0.0\\system.threading.channels.9.0.0.nupkg.sha512"
   ],
   "logs": []
 }

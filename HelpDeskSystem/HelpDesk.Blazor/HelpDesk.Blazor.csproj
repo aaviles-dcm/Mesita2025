@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HelpDesk.Logic\HelpDesk.Logic.csproj" />
     <ProjectReference Include="..\HelpDesk.Data\HelpDesk.Data.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.0" />
   </ItemGroup>
 
   <PropertyGroup>

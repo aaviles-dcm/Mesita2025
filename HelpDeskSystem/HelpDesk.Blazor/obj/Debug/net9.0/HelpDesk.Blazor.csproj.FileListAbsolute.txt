@@ -113,3 +113,7 @@ C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDes
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\ref\HelpDesk.Blazor.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\compressed\froheanz1y-qdzs356ngz.gz
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDesk.Blazor.sourcelink.json
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\System.Net.ServerSentEvents.dll

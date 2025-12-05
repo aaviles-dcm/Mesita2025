@@ -1,7 +1,8 @@
 using HelpDesk.Data;
 using HelpDesk.Data.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
 
 namespace HelpDesk.Api.Controllers
 {
@@ -10,10 +11,12 @@ namespace HelpDesk.Api.Controllers
     public class TicketsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IHubContext<HelpDesk.Api.Hubs.TicketHub> _hubContext;
 
-        public TicketsController(AppDbContext context)
+        public TicketsController(AppDbContext context, IHubContext<HelpDesk.Api.Hubs.TicketHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -60,6 +63,7 @@ namespace HelpDesk.Api.Controllers
             ticket.Status = TicketStatus.InProgress; // Auto move to InProgress? Or keep New? Let's say InProgress.
             
             await _context.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("TicketUpdated", id);
             return NoContent();
         }
 
@@ -99,6 +103,9 @@ namespace HelpDesk.Api.Controllers
 
             _context.Tickets.Add(ticket);
             await _context.SaveChangesAsync();
+            // No need to notify on creation for details view, but maybe for dashboard? 
+            // Let's notify anyway just in case.
+            await _hubContext.Clients.All.SendAsync("TicketUpdated", ticket.TicketId);
 
             return CreatedAtAction("GetTicket", new { id = ticket.TicketId }, ticket);
         }
@@ -116,6 +123,7 @@ namespace HelpDesk.Api.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                await _hubContext.Clients.All.SendAsync("TicketUpdated", id);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -143,6 +151,7 @@ namespace HelpDesk.Api.Controllers
 
             _context.Tickets.Remove(ticket);
             await _context.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("TicketUpdated", id); // Notify deletion?
 
             return NoContent();
         }

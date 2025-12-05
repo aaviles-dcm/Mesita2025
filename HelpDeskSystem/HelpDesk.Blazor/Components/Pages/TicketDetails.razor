@@ -240,6 +240,9 @@
     }
 </div>
 
+@implements IAsyncDisposable
+@using Microsoft.AspNetCore.SignalR.Client
+
 @code {
     [Parameter]
     public int Id { get; set; }
@@ -254,6 +257,8 @@
     
     private Guid currentUserId;
     private UserRole currentUserRole;
+
+    private HubConnection? hubConnection;
 
     protected override async Task OnInitializedAsync()
     {
@@ -282,6 +287,34 @@
         if (currentUserRole == UserRole.Administrator)
         {
             await LoadEngineers();
+        }
+
+        // Initialize SignalR Connection
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("http://localhost:5240/ticketHub")) // Pointing to API Hub
+            .WithAutomaticReconnect()
+            .Build();
+
+        hubConnection.On<int>("TicketUpdated", async (ticketId) =>
+        {
+            if (ticketId == Id)
+            {
+                await InvokeAsync(async () =>
+                {
+                    await LoadTicket();
+                    await LoadWorkLogs();
+                    StateHasChanged();
+                });
+            }
+        });
+
+        try
+        {
+            await hubConnection.StartAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error starting SignalR connection: {ex.Message}");
         }
     }
 
@@ -333,7 +366,7 @@
         };
 
         await Http.PostAsJsonAsync("api/worklogs", log);
-        await LoadWorkLogs();
+        // await LoadWorkLogs(); // SignalR will trigger reload
     }
 
     private async Task SaveSolution()
@@ -348,7 +381,7 @@
     {
         await Http.PutAsJsonAsync($"api/tickets/{Id}/assign", currentUserId);
         await LogAction("Ticket taken by user.");
-        await LoadTicket();
+        // await LoadTicket(); // SignalR will trigger reload
     }
 
     private async Task RequestInfo()
@@ -424,7 +457,7 @@
             var engineerName = engineers?.FirstOrDefault(e => e.UserId == selectedEngineerId)?.DisplayName ?? "Unknown";
             await LogAction($"Assigned to {engineerName}.");
             
-            await LoadTicket();
+            // await LoadTicket(); // SignalR will trigger reload
         }
     }
 
@@ -485,5 +518,13 @@
             3 => "Low",
             _ => "Unknown"
         };
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
     }
 }

@@ -1,0 +1,35 @@
+  Determinando los proyectos que se van a restaurar...
+  Todos los proyectos están actualizados para la restauración.
+  HelpDesk.Data -> C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Data\bin\Debug\net9.0\HelpDesk.Data.dll
+  HelpDesk.Logic -> C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\bin\Debug\net9.0\HelpDesk.Logic.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(1,6): error CS1513: Se esperaba } [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(5,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(5,33): error CS1001: Se esperaba un identificador [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(12,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(43,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(60,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(77,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(103,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(133,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(148,9): error CS0106: El modificador 'private' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(152,5): error CS1022: Se esperaba una definición de tipo o espacio de nombres, o el fin del archivo [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(153,1): error CS1022: Se esperaba una definición de tipo o espacio de nombres, o el fin del archivo [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+
+ERROR al compilar.
+
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(1,6): error CS1513: Se esperaba } [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(5,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(5,33): error CS1001: Se esperaba un identificador [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(12,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(43,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(60,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(77,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(103,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(133,9): error CS0106: El modificador 'public' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(148,9): error CS0106: El modificador 'private' no es válido para este elemento [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(152,5): error CS1022: Se esperaba una definición de tipo o espacio de nombres, o el fin del archivo [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\Controllers\TicketsController.cs(153,1): error CS1022: Se esperaba una definición de tipo o espacio de nombres, o el fin del archivo [C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Api\HelpDesk.Api.csproj]
+    0 Advertencia(s)
+    12 Errores
+
+Tiempo transcurrido 00:00:02.34
