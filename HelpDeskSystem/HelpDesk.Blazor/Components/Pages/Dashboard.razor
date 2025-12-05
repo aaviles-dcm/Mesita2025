@@ -2,6 +2,7 @@
 @using HelpDesk.Data.Dtos
 @using HelpDesk.Data.Entities
 @inject HttpClient Http
+@inject NavigationManager Navigation
 @attribute [Authorize]
 @inject AuthenticationStateProvider AuthStateProvider
 
@@ -148,19 +149,53 @@
     .badge-priority-low { background-color: #22c55e; color: white; } /* Green */
 </style>
 
+@implements IAsyncDisposable
+@using Microsoft.AspNetCore.SignalR.Client
+
 @code {
     private DashboardStatsDto? stats;
     private string? errorMessage;
     private bool isLoading = true;
-
-
+    private HubConnection? hubConnection;
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("Dashboard: OnInitializedAsync started");
+        await LoadStats();
+
+        // Initialize SignalR Connection
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("http://localhost:5240/ticketHub"))
+            .WithAutomaticReconnect()
+            .Build();
+
+        hubConnection.On<int>("TicketUpdated", async (ticketId) =>
+        {
+            await InvokeAsync(async () =>
+            {
+                // Reload stats when any ticket is updated
+                // Optimization: We could check if the ticketId is relevant, but for dashboard stats we generally want fresh data
+                await LoadStats();
+                StateHasChanged();
+            });
+        });
+
         try
         {
-            isLoading = true;
+            await hubConnection.StartAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error starting SignalR connection: {ex.Message}");
+        }
+    }
+
+    private async Task LoadStats()
+    {
+        Console.WriteLine("Dashboard: LoadStats started");
+        try
+        {
+            // Only set isLoading to true on initial load to avoid flickering updates
+            if (stats == null) isLoading = true;
             
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
@@ -191,7 +226,6 @@
         {
             isLoading = false;
             Console.WriteLine($"Dashboard: Loading finished. isLoading={isLoading}");
-            StateHasChanged();
         }
     }
 
@@ -204,6 +238,7 @@
             TicketStatus.Resolved => "badge-status-resolved",
             TicketStatus.Closed => "badge-status-closed",
             TicketStatus.OnHold => "badge-status-onhold",
+            TicketStatus.Cancelled => "bg-danger",
             _ => "bg-secondary"
         };
     }
@@ -228,5 +263,13 @@
             3 => "Low",
             _ => "Unknown"
         };
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
     }
 }

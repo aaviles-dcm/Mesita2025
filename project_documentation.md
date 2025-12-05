@@ -107,4 +107,4 @@ The system enforces Role-Based Access Control (RBAC) with three distinct roles:
 - **Automatic Assignment**: New tickets are auto-assigned to an engineer associated with the selected category.
 - **Admin Overrides**: Administrators have full control to change status, priority, and comment on closed tickets.
 - **User Actions**: Users can now Cancel `New`/`InProgress` tickets and Reopen `Closed` tickets.
-- **Real-time Updates**: Implemented SignalR to push ticket updates (status changes, comments, assignments) to all connected clients instantly without page reload.
+- **Real-time Updates**: Implemented SignalR to push ticket updates (status changes, comments, assignments) to all connected clients instantly without page reload. Now supported in both **Ticket Details** and **Dashboard**.
