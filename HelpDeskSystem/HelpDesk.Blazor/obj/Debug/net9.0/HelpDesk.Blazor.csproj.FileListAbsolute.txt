@@ -7,6 +7,9 @@ C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\HelpDes
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\HelpDesk.Blazor.runtimeconfig.json
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\HelpDesk.Blazor.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\HelpDesk.Blazor.pdb
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.Data.Sqlite.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -16,6 +19,7 @@ C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microso
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\SQLitePCLRaw.batteries_v2.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\SQLitePCLRaw.core.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\SQLitePCLRaw.provider.e_sqlite3.dll
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\System.Net.ServerSentEvents.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\runtimes\browser-wasm\nativeassets\net9.0\e_sqlite3.a
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\runtimes\linux-arm\native\libe_sqlite3.so
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\runtimes\linux-arm64\native\libe_sqlite3.so
@@ -48,6 +52,7 @@ C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDes
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDesk.Blazor.AssemblyInfo.cs
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDesk.Blazor.csproj.CoreCompileInputs.cache
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDesk.Blazor.MvcApplicationPartsAssemblyInfo.cache
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDesk.Blazor.sourcelink.json
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\rjimswa.dswa.cache.json
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
@@ -55,6 +60,7 @@ C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\scopedc
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\scopedcss\bundle\HelpDesk.Blazor.styles.css
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\scopedcss\projectbundle\HelpDesk.Blazor.bundle.scp.css
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\compressed\froheanz1y-qdzs356ngz.gz
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\compressed\hp6xzrw1ws-bqjiyaj88i.gz
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\compressed\jifuod2klo-c2jlpeoesf.gz
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\compressed\9wh2h4u5or-erw9l3u2r3.gz
@@ -111,9 +117,3 @@ C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\refint\
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDesk.Blazor.pdb
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDesk.Blazor.genruntimeconfig.cache
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\ref\HelpDesk.Blazor.dll
-C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\compressed\froheanz1y-qdzs356ngz.gz
-C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\obj\Debug\net9.0\HelpDesk.Blazor.sourcelink.json
-C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.AspNetCore.Http.Connections.Client.dll
-C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.AspNetCore.SignalR.Client.dll
-C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
-C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Blazor\bin\Debug\net9.0\System.Net.ServerSentEvents.dll

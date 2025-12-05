@@ -8,9 +8,9 @@ C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\HelpDesk
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\HelpDesk.Logic.AssemblyInfoInputs.cache
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\HelpDesk.Logic.AssemblyInfo.cs
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\HelpDesk.Logic.csproj.CoreCompileInputs.cache
+C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\HelpDesk.Logic.sourcelink.json
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\HelpDesk.A334E6C4.Up2Date
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\HelpDesk.Logic.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\refint\HelpDesk.Logic.dll
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\HelpDesk.Logic.pdb
 C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\ref\HelpDesk.Logic.dll
-C:\Desarrollo\GrabTikets\HelpDeskSystem\HelpDesk.Logic\obj\Debug\net9.0\HelpDesk.Logic.sourcelink.json
